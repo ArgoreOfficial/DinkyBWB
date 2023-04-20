@@ -74,7 +74,7 @@ namespace Dinky_bwb.Controllers
             }
         }
 
-        public void Update(GameTime gameTime, MapData map)
+        public void Update(GameTime gameTime, WorldData map)
         {
             Input();
 
@@ -82,11 +82,11 @@ namespace Dinky_bwb.Controllers
             Vector2 nextPosition = _position + _velocity * _speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector2 nextPositionX = new Vector2(nextPosition.X, _position.Y);
             Vector2 nextPositionY = new Vector2(_position.X, nextPosition.Y);
-
+            
             // check for walls
             if (CheckWall(nextPositionX, map)) nextPosition.X = _position.X;
             if (CheckWall(nextPositionY, map)) nextPosition.Y = _position.Y;
-
+            
             // update position
             _position = nextPosition;
 
@@ -120,7 +120,7 @@ namespace Dinky_bwb.Controllers
             spriteBatch.DrawRectangle(new Rectangle((_rayHitbox.Location.ToVector2() - _position + new Vector2(256, 256)).ToPoint(), _rayHitbox.Size), Color.Red);
         }
 
-        bool CheckWall(Vector2 position, MapData map)
+        bool CheckWall(Vector2 position, WorldData map)
         {
             // get hitbox corners
             Vector2 topRight = new Vector2(position.X + _hitbox.Width / 2, position.Y - _hitbox.Height / 2);
@@ -128,11 +128,13 @@ namespace Dinky_bwb.Controllers
             Vector2 topLeft = new Vector2(position.X - _hitbox.Width / 2, position.Y - _hitbox.Height / 2);
             Vector2 bottomLeft = new Vector2(position.X - _hitbox.Width / 2, position.Y + _hitbox.Height / 2);
 
+            int wallid = 97;
+
             // check for collision, 2 is brick. Temporary for now until proper mapdata is done
-            if (map.GetTileFromScreen(topRight.ToPoint()) == 2) return true;
-            if (map.GetTileFromScreen(bottomRight.ToPoint()) == 2) return true;
-            if (map.GetTileFromScreen(topLeft.ToPoint()) == 2) return true;
-            if (map.GetTileFromScreen(bottomLeft.ToPoint()) == 2) return true;
+            if (map.GetTileFromScreen(topRight.ToPoint()).Value.GlobalIdentifier == wallid) return true;
+            if (map.GetTileFromScreen(bottomRight.ToPoint()).Value.GlobalIdentifier == wallid) return true;
+            if (map.GetTileFromScreen(topLeft.ToPoint()).Value.GlobalIdentifier == wallid) return true;
+            if (map.GetTileFromScreen(bottomLeft.ToPoint()).Value.GlobalIdentifier == wallid) return true;
 
             return false;
         }

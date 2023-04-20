@@ -16,15 +16,15 @@ namespace Dinky_bwb.Screens
     public class GameScreen : Screen
     {
         Player _player;
-        MapData _activeMap;
+        WorldData _activeMap;
 
-        public GameScreen(string name, Player player, MapData map) : base(name)
+        public GameScreen(string name, Player player, WorldData map) : base(name)
         {
             _player = player;
             _activeMap = map;
         }
 
-        public void SetMap(MapData map)
+        public void SetMap(WorldData map)
         {
             _activeMap = map;
         }
@@ -32,17 +32,16 @@ namespace Dinky_bwb.Screens
         public override void Update(GameTime gameTime)
         {
             _player.Update(gameTime, _activeMap);
-
-            Debug.WriteLine(_activeMap.GetTileFromScreen((_player.GetPosition()).ToPoint()));
+            _activeMap.SetPosition(_player.GetPosition());
 
             base.Update(gameTime);
         }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
-            _activeMap?.Draw(spriteBatch, _player.GetPosition() - new Vector2(256, 256));
+            _activeMap.Draw(spriteBatch);
 
-            _player?.Draw(spriteBatch, _time);
+            _player.Draw(spriteBatch, _time);
             base.Draw(spriteBatch);
         }
 

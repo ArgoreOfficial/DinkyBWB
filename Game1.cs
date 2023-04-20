@@ -5,6 +5,7 @@ using Dinky_bwb.Screens;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MonoGame.Extended.Tiled;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,7 @@ namespace Dinky_bwb
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-
+        
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -29,7 +30,7 @@ namespace Dinky_bwb
             _graphics.PreferredBackBufferWidth = 512;
             _graphics.PreferredBackBufferHeight = 512;
             _graphics.ApplyChanges();
-
+            
             base.Initialize();
         }
 
@@ -55,20 +56,15 @@ namespace Dinky_bwb
                         new Player(
                             GetTexture("Textures/Entities/player_dinky"),
                             new Rectangle(0,0,40,40),
-                            new Vector2(256, 256),
+                            new Vector2(5*64, 5*64),
                             new Vector2(1, 0),
                             128
                             ),
-                        new MapData(new Texture2D[]
-                        {
-                            GetTexture("Textures/Tiles/grass"),
-                            GetTexture("Textures/Tiles/grass_decorated1"),
-                            GetTexture("Textures/Tiles/brick")
-                        }))
+                        new WorldData(Content.Load<TiledMap>("Maps/map")))
                 }.ToList()
                 );
 
-            ScreenManager.SetScreen("game");
+            ScreenManager.SetScreen("splash");
         }
 
         protected override void Update(GameTime gameTime)
