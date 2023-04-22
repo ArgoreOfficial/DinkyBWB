@@ -55,16 +55,15 @@ namespace Dinky_bwb
                         "game", 
                         new Player(
                             GetTexture("Textures/Entities/player_dinky"),
-                            new Rectangle(0,0,40,40),
+                            new Rectangle(0,0,58,50),
                             new Vector2(5*64, 5*64),
-                            new Vector2(1, 0),
-                            128
+                            192
                             ),
-                        new WorldData(Content.Load<TiledMap>("Maps/map")))
+                        new WorldData(Content.Load<TiledMap>("Maps/map"), this))
                 }.ToList()
                 );
 
-            ScreenManager.SetScreen("splash");
+            ScreenManager.SetScreen("game");
         }
 
         protected override void Update(GameTime gameTime)
@@ -73,7 +72,6 @@ namespace Dinky_bwb
                 Exit();
 
             ScreenManager.Update(gameTime);
-
 
             base.Update(gameTime);
         }
@@ -93,5 +91,6 @@ namespace Dinky_bwb
         {
             return Content.Load<Texture2D>(path);
         }
+
     }
 }
