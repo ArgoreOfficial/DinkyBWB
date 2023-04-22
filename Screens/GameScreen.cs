@@ -1,4 +1,5 @@
 ﻿using Dinky_bwb.Controllers;
+using Dinky_bwb.Managers;
 using Dinky_bwb.Map;
 using Dinky_bwb.UI;
 using Microsoft.Xna.Framework;
@@ -53,7 +54,7 @@ namespace Dinky_bwb.Screens
         public bool CauseTransition(float totalTime, Action callback = null)
         {
             if (_transitionTime > 0) return false;
-
+            SoundManager.DoorSound();
             _transitionTotalTime = totalTime;
             _playingTransition = true;
             _transitionCallback = callback;

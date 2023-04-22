@@ -2,6 +2,7 @@
 using Dinky_bwb.Managers;
 using Dinky_bwb.Map;
 using Dinky_bwb.Screens;
+using Dinky_bwb.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -37,6 +38,8 @@ namespace Dinky_bwb
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            DialogueManager.Load();
+            SoundManager.Load();
 
             ScreenManager.Init(
                 new Screen[]
@@ -63,7 +66,7 @@ namespace Dinky_bwb
                 }.ToList()
                 );
 
-            ScreenManager.SetScreen("game");
+            ScreenManager.SetScreen("main_menu");
         }
 
         protected override void Update(GameTime gameTime)

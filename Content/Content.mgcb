@@ -16,6 +16,24 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/door.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/door.mp3
+
+#begin Audio/speak_blop.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/speak_blop.mp3
+
+#begin Audio/speak.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/speak.mp3
+
 #begin Maps/map.tmx
 /importer:TiledMapImporter
 /processor:TiledMapProcessor
@@ -37,18 +55,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/Entities/npc_wawa.png
-
-#begin Textures/Entities/player_dinky.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Textures/Entities/player_dinky.png
 
 #begin Textures/Entities/player_dinky.png
 /importer:TextureImporter
@@ -109,6 +115,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Textures/UI/exit.png
+
+#begin Textures/UI/font.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Textures/UI/font.png
 
 #begin Textures/UI/play.png
 /importer:TextureImporter

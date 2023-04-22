@@ -1,4 +1,5 @@
-﻿using Dinky_bwb.Managers;
+﻿using Dinky_bwb.Extra;
+using Dinky_bwb.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -14,17 +15,25 @@ namespace Dinky_bwb.UI
     {
         float _hoverLerp = 0f;
         float _hoverLerpSpeed = 4f;
+
+        Vector2 _basePosition;
         public PlayButton(Texture2D texture, Vector2 position, float rotation = 0, float scale = 1) : base(texture, position, rotation, scale)
         {
-
+            _basePosition = position;
         }
 
         public override void Update(GameTime gameTime)
         {
             if (!_isHovering && _hoverLerp > 0) _hoverLerp -= (float)gameTime.ElapsedGameTime.TotalSeconds * _hoverLerpSpeed;
 
-            _scale = MathF.Sin(_time * 4) * 0.05f * _hoverLerp + 1;
-            _rotation = MathF.Sin(_time * 6) * 0.1f * _hoverLerp;
+            _scale = MathF.Sin(_time * 54) * 0.05f * _hoverLerp + 1;
+            _rotation = MathF.Sin(_time * 36) * 0.1f * _hoverLerp;
+
+
+            _position = _basePosition + new Vector2(
+                   ExtraMath.Noise(_time * 20) * _hoverLerp * 4f,
+                   ExtraMath.Noise(_time * 20 + 834) * _hoverLerp * 4f
+                );
 
             base.Update(gameTime);
         }

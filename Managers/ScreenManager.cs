@@ -1,10 +1,13 @@
 ﻿using Dinky_bwb.Screens;
+using Dinky_bwb.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Dinky_bwb.Managers
@@ -24,6 +27,8 @@ namespace Dinky_bwb.Managers
         public static void Update(GameTime gameTime)
         {
             _activeScreen?.Update(gameTime);
+
+            DialogueManager.Update(gameTime);
         }
 
         public static void Draw(SpriteBatch spriteBatch)
@@ -31,6 +36,8 @@ namespace Dinky_bwb.Managers
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             _activeScreen?.Draw(spriteBatch);
+
+            DialogueManager.Draw(spriteBatch);
 
             spriteBatch.End();
         }

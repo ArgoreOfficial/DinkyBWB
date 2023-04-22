@@ -85,7 +85,11 @@ namespace Dinky_bwb.Map
                             (int)o_entities.Objects[i].Size.Width,
                             (int)o_entities.Objects[i].Size.Height);
 
-                _interactions.Add(new DialogueInteraction(rect, GetEntity(o_entities.Objects[i].Type)));
+                _interactions.Add(
+                    new DialogueInteraction(
+                        rect, 
+                        GetEntity(o_entities.Objects[i].Type),
+                        "Content/Dialogue/wawa.txt"));
             }
         }
 
