@@ -58,7 +58,7 @@ namespace Dinky_bwb
                         "game", 
                         new Player(
                             GetTexture("Textures/Entities/player_dinky"),
-                            new Rectangle(0,0,58,50),
+                            new Rectangle(0,0,49,40),
                             new Vector2(5*64, 5*64),
                             192
                             ),
@@ -66,17 +66,20 @@ namespace Dinky_bwb
                 }.ToList()
                 );
 
-            ScreenManager.SetScreen("main_menu");
+            ScreenManager.SetNextScreen("splash");
         }
 
         protected override void Update(GameTime gameTime)
         {
+            ScreenManager.SwitchToNextScreen();
+            
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             ScreenManager.Update(gameTime);
 
             base.Update(gameTime);
+
         }
 
         protected override void Draw(GameTime gameTime)
@@ -86,8 +89,6 @@ namespace Dinky_bwb
             ScreenManager.Draw(_spriteBatch);
 
             base.Draw(gameTime);
-
-            ScreenManager.SwitchToNextScreen();
         }
 
         public Texture2D GetTexture(string path)

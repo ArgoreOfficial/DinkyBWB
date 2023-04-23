@@ -23,11 +23,6 @@ namespace Dinky_bwb.Screens
         Player _player;
         WorldData _activeMap;
 
-        float _transitionTime = 0;
-        float _transitionTotalTime = 1f;
-        bool _playingTransition = false;
-        bool _transitionOut = false;
-        Action _transitionCallback;
 
         public GameScreen(string name, Player player, WorldData map) : base(name)
         {
@@ -51,48 +46,19 @@ namespace Dinky_bwb.Screens
             }
         }
 
-        public bool CauseTransition(float totalTime, Action callback = null)
-        {
-            if (_transitionTime > 0) return false;
-            SoundManager.DoorSound();
-            _transitionTotalTime = totalTime;
-            _playingTransition = true;
-            _transitionCallback = callback;
-
-            return true;
-        }
-
         public override void Update(GameTime gameTime)
         {
             _player.Update(gameTime, this, _activeMap);
             _activeMap.SetPosition(_player.GetPosition());
 
-            if (_playingTransition)
-            {
-                if(_transitionTime < _transitionTotalTime) _transitionTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                else
-                {
-                    if(!_transitionOut)
-                    {
-                        _transitionCallback?.Invoke();
-                        _transitionOut = true;
-                        _transitionTime = 0;
-                    }
-                    else
-                    {
-                        _playingTransition = false;
-                    }
-                }
-            }
-            else
-            {
-                _transitionOut = false;
-                _transitionTime = 0;
-            }
-
             base.Update(gameTime);
         }
 
+        public override void UpdateRegardless(GameTime gameTime)
+        {
+            _player.UpdateRegardless(gameTime, _activeMap);
+            base.UpdateRegardless(gameTime);
+        }
 
         public override void Draw(SpriteBatch spriteBatch)
         {
@@ -104,11 +70,6 @@ namespace Dinky_bwb.Screens
             _activeMap.Draw(spriteBatch, action, _player.GetPosition());
             //_player.Draw(spriteBatch, _time);
 
-            if(_transitionOut)
-                spriteBatch.FillRectangle(new Rectangle(0, 0 - (int)(512f * (_transitionTime / _transitionTotalTime)), 512, 512), Color.Black);
-            else
-                spriteBatch.FillRectangle(new Rectangle(0, 512 - (int)(512f * (_transitionTime / _transitionTotalTime)), 512, 512), Color.Black);
-            
             base.Draw(spriteBatch);
         }
 

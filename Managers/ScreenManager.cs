@@ -19,6 +19,8 @@ namespace Dinky_bwb.Managers
         private static Screen _activeScreen;
         private static Screen _nextScreen;
 
+        private static bool _isPaused = false;
+
         public static void Init(List<Screen> screens)
         {
             _screens = screens;
@@ -26,7 +28,12 @@ namespace Dinky_bwb.Managers
 
         public static void Update(GameTime gameTime)
         {
-            _activeScreen?.Update(gameTime);
+            _activeScreen?.UpdateRegardless(gameTime);
+
+            if (!_isPaused)
+            {
+                _activeScreen?.Update(gameTime);
+            }
 
             DialogueManager.Update(gameTime);
         }
@@ -36,13 +43,17 @@ namespace Dinky_bwb.Managers
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, null);
 
             _activeScreen?.Draw(spriteBatch);
-
             DialogueManager.Draw(spriteBatch);
 
             spriteBatch.End();
         }
 
-        public static bool SetScreen(string screenName)
+        /// <summary>
+        /// Sets next screen. Change occurs at the start of next frame
+        /// </summary>
+        /// <param name="screenName"></param>
+        /// <returns></returns>
+        public static bool SetNextScreen(string screenName)
         {
             for (int i = 0; i < _screens.Count; i++)
             {
@@ -56,6 +67,9 @@ namespace Dinky_bwb.Managers
             return false;
         }
 
+        /// <summary>
+        /// cause scene change
+        /// </summary>
         public static void SwitchToNextScreen()
         {
             if (_nextScreen != null)
@@ -64,6 +78,16 @@ namespace Dinky_bwb.Managers
                 _activeScreen.ResetTimer();
             }
             _nextScreen = null;
+        }
+
+        public static void Pause()
+        {
+            _isPaused = true;
+        }
+
+        public static void Unpause()
+        {
+            _isPaused = false;
         }
     }
 }

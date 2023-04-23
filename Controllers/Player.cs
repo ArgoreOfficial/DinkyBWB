@@ -21,7 +21,7 @@ namespace Dinky_bwb.Controllers
 {
     public enum WalkWobbleAmount
     {
-        Normal = 2,
+        Normal = 1,
         High = 10,
         Extreme = 20,
         WHY = 50
@@ -37,13 +37,14 @@ namespace Dinky_bwb.Controllers
         Vector2 _position;
         Vector2 _velocity;
         float _speed;
-        bool _facingLeft = false;
+        bool _facingLeft = true;
 
         float _movingTimer = 0f;
         float _movingTimerTarget = 0f;
-        float _rotationAmount;
+        float _rotationAmount = 0;
 
         bool _canMove = true;
+        float _time = 0f;
 
         WalkWobbleAmount _wobbleAmount = WalkWobbleAmount.Normal;
 
@@ -57,7 +58,7 @@ namespace Dinky_bwb.Controllers
 
         public void Move(Vector2 direction, float speed, GameTime gameTime)
         {
-            _position += direction * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+            _position += direction * speed * gameTime.GetElapsedSeconds();
         }
 
         public void SetPosition(Vector2 position)
@@ -80,27 +81,24 @@ namespace Dinky_bwb.Controllers
 
         void Input()
         {
-
-            KeyboardState key = KeyboardGetState();
-
             _velocity = Vector2.Zero;
 
             if (!_canMove) return;
             
-            if (key.IsKeyDown(Keys.W))
+            if (currentKeyState.IsKeyDown(Keys.W))
             {
                 _velocity.Y -= 1;
             }
-            if (key.IsKeyDown(Keys.S))
+            if (currentKeyState.IsKeyDown(Keys.S))
             {
                 _velocity.Y += 1;
             }
-            if (key.IsKeyDown(Keys.A))
+            if (currentKeyState.IsKeyDown(Keys.A))
             {
                 _facingLeft = true;
                 _velocity.X -= 1;
             }
-            if (key.IsKeyDown(Keys.D))
+            if (currentKeyState.IsKeyDown(Keys.D))
             {
                 _facingLeft = false;
                 _velocity.X += 1;
@@ -111,6 +109,8 @@ namespace Dinky_bwb.Controllers
 
         public void Update(GameTime gameTime, GameScreen gameScreen, WorldData map)
         {
+            _time += gameTime.GetElapsedSeconds();
+
             Input();
             UpdatePosition(gameTime, map);
             CheckWarps(map, gameScreen);
@@ -124,14 +124,16 @@ namespace Dinky_bwb.Controllers
             }
 
             _rotationAmount = MathF.Sin(_movingTimer) * (_facingLeft ? -1 : 1) * ((int)_wobbleAmount / 10f);
+        }
 
-            KeyboardState key = Keyboard.GetState();
+        public void UpdateRegardless(GameTime gameTime, WorldData map)
+        {
+            KeyboardGetState();
+
             if (IsKeyPressed(Keys.E, true))
             {
                 map.TryForInteraction(_position);
             }
-
-            
         }
 
         void UpdatePosition(GameTime gameTime, WorldData map)
@@ -167,10 +169,11 @@ namespace Dinky_bwb.Controllers
                 void warp()
                 {
                     WarpTo(map, objectLayer.Objects[i].Name);
-                    _canMove = true;
+                    ScreenManager.Unpause();
+                    //_canMove = true;
                 }
 
-                if(gameScreen.CauseTransition(0.2f, warp)) _canMove = false;
+                if (gameScreen.CauseTransition(0.2f, warp)) ScreenManager.Pause();// _canMove = false;
                 break;
             }
         }
@@ -194,7 +197,7 @@ namespace Dinky_bwb.Controllers
             
             spriteBatch.Draw(
                 _playerTexture,
-                new Vector2(256, 256),
+                new Vector2(256, 256) + new Vector2(0, MathF.Sin(_time * 5) * 2),
                 new Rectangle(0, 0, _playerTexture.Width, _playerTexture.Height),
                 Color.White,
                 _rotationAmount,

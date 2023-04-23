@@ -19,7 +19,7 @@ namespace Dinky_bwb.Managers
         static int _fontSize = 32;
         static int _fontSpacing = 16;
 
-        static string _alphabet = "abcdefghijklmnopqrstuvwxyz!?., ";
+        static string _alphabet = "abcdefghijklmnopqrstuvwxyz!?.,:() ";
 
         // current dialogue stuff
         static bool _drawDialogue = false;
@@ -29,7 +29,7 @@ namespace Dinky_bwb.Managers
         static int _totalLetterCount;
 
         static float _timeSinceLastLetter = 0;
-        static float _letterDelay = 0.03f;
+        static float _letterDelay = 0.08f;
         static float _totalTime;
 
         public static void Load()
@@ -92,7 +92,7 @@ namespace Dinky_bwb.Managers
                         Point pos = position.ToPoint() + currentPoint + descender;
                         Point source = new Point(
                             (index % 16) * _fontSize,
-                            (index / 16) * _fontSize + (isLower ? 64 : 0));
+                            (index / 16) * _fontSize + (isLower ? 96 : 0));
 
                         spriteBatch.Draw(
                             _font,

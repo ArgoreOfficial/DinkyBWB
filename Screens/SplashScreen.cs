@@ -25,7 +25,7 @@ namespace Dinky_bwb.Screens
         {
             if(_time >= 3f)
             {
-                ScreenManager.SetScreen("main_menu");
+                ScreenManager.SetNextScreen("main_menu");
             }
 
             base.Update(gameTime);

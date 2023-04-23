@@ -89,7 +89,7 @@ namespace Dinky_bwb.Map
                     new DialogueInteraction(
                         rect, 
                         GetEntity(o_entities.Objects[i].Type),
-                        "Content/Dialogue/wawa.txt"));
+                        "Content/Dialogue/" + o_entities.Objects[i].Type + ".txt"));
             }
         }
 

@@ -45,7 +45,7 @@ namespace Dinky_bwb.UI
 
         public override void OnClick(GameTime gameTime)
         {
-            ScreenManager.SetScreen("game");
+            ScreenManager.SetNextScreen("game");
         }
 
         public override void OnHover(GameTime gameTime)
