@@ -59,6 +59,15 @@ namespace Dinky_bwb.Managers
             DrawDialogue(spriteBatch, _dialogueText);
         }
 
+        /// <summary>
+        /// Custom text drawing function to give extra flexibility on how things are drawn
+        /// </summary>
+        /// <param name="spriteBatch"></param>
+        /// <param name="text"> Text to draw </param>
+        /// <param name="position"></param>
+        /// <param name="width"> Width of the draw area. Used to wrap text around </param>
+        /// <param name="skipRows"></param>
+        /// <returns></returns>
         public static int DrawText(SpriteBatch spriteBatch, string text, Vector2 position, int width, int skipRows = 0)
         {
             string[] words = text.Split(' ');
@@ -81,12 +90,13 @@ namespace Dinky_bwb.Managers
                 {
                     for (int l = 0; l < words[i].Length; l++)
                     {
+                        // get words
                         char c = words[i][l];
                         int index = _alphabet.IndexOf(c.ToString().ToLower());
                         if (index < 0) continue;
 
                         bool isLower = Char.IsLower(c);
-                        Point descender = "gjqpy".Contains(c) ? new Point(0, 8) : new Point(0, 0);
+                        Point descender = "gjqpy".Contains(c) ? new Point(0, 8) : new Point(0, 0); // offsets if char is a descender
 
                         // get position and source position for letter
                         Point pos = position.ToPoint() + currentPoint + descender;
